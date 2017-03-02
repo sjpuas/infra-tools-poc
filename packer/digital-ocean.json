@@ -1,0 +1,31 @@
+{
+  "builders": [
+    {
+      "type": "digitalocean",
+      "ssh_username": "root",
+      "api_token": "{{ user `my_token` }}",
+      "image": "centos-7-x64",
+      "region": "nyc2",
+      "size": "512mb"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "docker-daemon.json",
+      "destination": "/tmp/daemon.json"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "yum check-update",
+        "yum install docker",
+        "mv /tmp/daemon.json /etc/docker/daemon.json",
+        "systemctl start docker",
+        "systemctl status docker",
+        "systemctl enable docker",
+        "docker info"
+      ]
+    }
+  ]
+}

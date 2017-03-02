@@ -1,0 +1,31 @@
+{
+  "builders": [
+    {
+      "type": "vmware-iso",
+      "iso_url": "iso/CentOS-7-x86_64-DVD-1611.iso",
+      "iso_checksum": "c455ee948e872ad2194bdddd39045b83634e8613249182b88f549bb2319d97eb",
+      "iso_checksum_type": "sha256",
+      "ssh_username": "packer",
+      "shutdown_command": "shutdown -P now"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "config/docker-daemon.json",
+      "destination": "/tmp/daemon.json"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "yum check-update",
+        "yum install docker",
+        "mv /tmp/daemon.json /etc/docker/daemon.json",
+        "systemctl start docker",
+        "systemctl status docker",
+        "systemctl enable docker",
+        "docker info"
+      ]
+    }
+  ]
+}

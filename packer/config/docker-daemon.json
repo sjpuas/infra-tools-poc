@@ -1,0 +1,8 @@
+{
+ "storage-driver": "overlay2",
+ "experimental":false,
+ "live-restore":true,
+ "labels": [],
+ "insecure-registries": [""],
+ "hosts":["tcp://0.0.0.0:2375","fd://"]
+}
